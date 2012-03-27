@@ -1,0 +1,44 @@
+<module>
+	<rawname>noojee</rawname>
+	<name>Noojee Telephony Solutions</name>
+	<version>4.1.4</version>
+	<description>
+		The module works with Noojee Receptionist, Noojee Fax and Noojee Click to simplify the
+		configuration of FreePBX based distributions when working with Noojee's products.
+		This module provides: 
+		A custom destination for Noojee Receptionist that can be the target of an Inbound Route.
+		Asterisk Manager accounts for each product.
+		Any necessary dial plan for Noojee's products to work.
+	</description>
+	<type>setup</type>
+	<category>Applications</category>
+	<menuitems>
+		<noojee_receptionist_setup>Noojee Receptionist
+		</noojee_receptionist_setup>
+		<!-- I've disabled this for now as its not ready for prime time.
+		We need to configure t.38 and change the NJ Fax installer to work with this module.
+		<noojee_fax_setup>Noojee Fax
+		</noojee_fax_setup>
+		-->
+		<noojee_click_setup>Noojee Click
+		</noojee_click_setup>
+	</menuitems>
+	<depends>
+		<module>core</module>
+		<module>ivr gt1.0</module>
+		<module>manager</module>
+		<module>parking</module>
+		<version>ge2.2</version>
+		<engine>asterisk 1.4</engine>
+	</depends>
+	<changelog>
+	*4.0.8* Fixed a bug which stopped the NJR Parking extension being setup correctly.
+	Added support to enable call parking on FreePBX by calling into the FreePBX Parking Lot module. 
+	*4.1.2* Changed the default http port to 8088 to reflect asterisks standard default as well as NJ Clicks.
+	*4.1.3* Cleaned up naming conventions so that terminology is consistent across all of our products and documentation.
+	*4.1.4* Added new bridge extension required by njr 4.0.
+	</changelog>
+	<location></location>
+	<info>https://wiki.noojee.com.au
+	</info>
+</module>
