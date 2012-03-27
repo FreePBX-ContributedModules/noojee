@@ -1,5 +1,20 @@
 <?php
 
+/** Copyright (C) 2012 Noojee IT Pty Ltd
+ * 
+ * Author: S. Brett Sutton
+ * 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
 function noojee_destinations()
 {
 	return array(
@@ -33,8 +48,8 @@ function noojee_get_config($engine)
 
 			generate_receptionist_40_dialplan();
 			generate_receptionist_30_dialplan();
-			// TODO: we removed this as it is dangerous. See comments below.
-			// generate_fax_40_dialplan();
+			 //  TODO: we removed this as it is dangerous. See comments below.
+			//  generate_fax_40_dialplan();
 			break;
 	}
 }
@@ -44,8 +59,8 @@ function generate_receptionist_40_dialplan()
 	global $ext;
 	global $db;
 
-	// Noojee Receptionist 4.0
-	$id = 'njr-operator'; // The context to be used
+	//  Noojee Receptionist 4.0
+	$id = 'njr-operator';  //  The context to be used
 	$ext->addInclude('from-internal-additional', $id);
 
 	$ext->add($id, 'njr-inbound', '', new ext_answer(''));
@@ -106,8 +121,8 @@ function generate_receptionist_30_dialplan()
 	global $ext;
 	global $db;
 
-	// Noojee Receptionist 3.0
-	$id = 'reception'; // The context to be used
+	//  Noojee Receptionist 3.0
+	$id = 'reception';  //  The context to be used
 	$ext->addInclude('from-internal-additional', $id);
 
 	$ext->add($id, 'njr-inbound', '', new ext_answer(''));
@@ -166,13 +181,13 @@ function generate_fax_40_dialplan()
 	/**
 	 *  Now the Noojee Fax dialplan
 	 */
-	$id = 'Noojee-Fax-Receive'; // The context to be used
+	$id = 'Noojee-Fax-Receive';  //  The context to be used
 
 	$ext->addInclude('from-internal-additional', $id);
 
 	$sql = "select FaxReturnNumber, ReceiptSpool from tblNoojeeModule";
 	$res =& $db->query($sql);
-	// Always check that result is not an error
+	//  Always check that result is not an error
 	if (PEAR::isError($res))
 	freepbx_log("Noojee", "error", "Attempting to obtain data from SQL tblNoojeeModule" . $res);
 
@@ -189,11 +204,11 @@ function generate_fax_40_dialplan()
 	$ext->add($id, 's', '', new ext_goto('${DID}',1));
 	$ext->add($id, 's', '', new extension('Verbose("Oops shouldn\'t get here")'));
 
-	// TODO: the following code is dangerous as it results in all inbound calls
-	// being routed to use. The problem is that this context gets included in the 
-	// main from-internal (I think that the name) and since _X. matches any number
-	// all inbound calls are routed to the fax. We need to find a way of avoiding this
-	// before we redploy this module.
+	 //  TODO: the following code is dangerous as it results in all inbound calls
+	 //  being routed to Noojee Fax. The problem is that this context gets included in the 
+	 //  main from-internal (I think that's the name) and since _X. matches any number
+	 // all inbound calls are routed to Noojee Fax. We need to find a way of avoiding this
+	 // before we redploy this module.
 	$ext->add($id, '_X.', '', new extension('RxFax(${FAXFILE})'));
 	$ext->add($id, '_X.', '', new extension('Verbose(REMOTESTATIONID ${remotestationid})'));
 	$ext->add($id, '_X.', '', new extension('Verbose(FAXPAGES ${faxpages}'));
